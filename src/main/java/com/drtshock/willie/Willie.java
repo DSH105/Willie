@@ -31,9 +31,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import org.pircbotx.Channel;
 import org.pircbotx.Colors;
+import org.pircbotx.Configuration;
 import org.pircbotx.PircBotX;
 import org.pircbotx.exception.IrcException;
-import org.pircbotx.exception.NickAlreadyInUseException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -167,6 +167,16 @@ public class Willie extends PircBotX {
         this.setVerbose(false);
         this.getListenerManager().addListener(this.commandManager);
         this.getListenerManager().addListener(this.joinListener);
+
+        Configuration configuration = new Configuration.Builder()
+                .setName(willieConfig.getNick()) //Set the nick of the bot. CHANGE IN YOUR CODE
+                .setLogin("LQ") //login part of hostmask, eg name:login@host
+                .setAutoNickChange(true) //Automatically change nick when the current one is in use
+                .setCapEnabled(true) //Enable CAP features
+                .addListener(new PircBotXExample()) //This class is a listener, so add it to the bots known listeners
+                .setServerHostname("irc.freenode.net")
+                .addAutoJoinChannel("#pircbotx") //Join the official #pircbotx channel
+                .buildConfiguration();
     }
 
     public void connect() {
